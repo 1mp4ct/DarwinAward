@@ -176,11 +176,17 @@ public class BrainsForRoads extends Creature {
 			this.height = map.length;
 			this.width = map[0].length;
 			
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					squares.add(new Vertex(new Point(x, y), map[y][x] != null ? map[y][x].getType() : Type.EMPTY));
-				}	
-			}
+			for (int y = 0; y < map[0].length; y++) {  
+	    		for (int x = 0; x < map.length; x++) {
+	    			squares.add(new Vertex(new Point(x, y), map[x][y] != null ? map[x][y].getType() : Type.EMPTY));
+	    		}
+	    	}
+			
+//			for (int y = 0; y < height; y++) {
+//				for (int x = 0; x < width; x++) {
+//					squares.add(new Vertex(new Point(x, y), map[y][x] != null ? map[y][x].getType() : Type.EMPTY));
+//				}	
+//			}
 			
 			// init neighbor relationships
 			for (Vertex v: squares) {
@@ -196,11 +202,7 @@ public class BrainsForRoads extends Creature {
 			if (loc.x < 0 || loc.y < 0 || loc.x > width || loc.y > height) {
 				return Optional.empty();
 			}
-			try {
-				return Optional.of(squares.get(loc.x * loc.y + loc.x));
-			} catch (Exception e) {
-				return Optional.empty();
-			}
+			return Optional.of(squares.get(loc.x + loc.y * width));
 		}
 		
 		public Optional<Vertex> getVertexAtPoint(Point origin, Direction dir) {
