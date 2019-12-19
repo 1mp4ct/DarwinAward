@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 /** Minimal creature that blindly moves and attacks.*/
@@ -20,30 +21,35 @@ public class BrainsForRoads extends Creature {
     	
     	hackIntoSimulator();
     	
-    	Playground p = new Playground(map);
-    	System.out.println(p.print());
+    	System.out.println(this.printMap());
     	
-    	System.out.println(this.observe().length);
+//    	Playground p = new Playground(this.getMapDimensions());
+//    	System.out.println(p.print());
+    	
+//    	System.out.println(this.observe().length);
     	
         while (true) {
-            if (! moveForward()) {
-                attack();
-                
-                turnLeft();
-                
-                System.out.println(this.getPosition());
-            }
+//        	for (int i = 0; i < 999999; i++) {
+//        		Double d = 3276548723.0;
+//        	}
+        	Point myPos = this.getMovePosition();
+        	Direction myDir = this.getDirection();
+        	for (Observation obs : this.observe()) {
+        		
+        	}
+        	this.attack();
+            this.move(Direction.random());
         }
     }
 
     @Override
 	public String getAuthorName() {
-        return "Darwin SDK";
+        return "Demus";
     }
 
     @Override
 	public String getDescription() {
-        return "Minimal creature that blindly moves and attacks.";
+        return "Search.Find.Route.";
     }
     
     private void hackIntoSimulator() {
@@ -172,21 +178,28 @@ public class BrainsForRoads extends Creature {
     	
     	private final List<Vertex> squares = new ArrayList<>();
  
-		public Playground(Entity[][] map) {
-			this.height = map.length;
-			this.width = map[0].length;
+		public Playground(Dimension dim) {
+			this.height = (int) dim.getHeight();
+			this.width = (int) dim.getWidth();
 			
-			for (int y = 0; y < map[0].length; y++) {  
-	    		for (int x = 0; x < map.length; x++) {
-	    			squares.add(new Vertex(new Point(x, y), map[x][y] != null ? map[x][y].getType() : Type.EMPTY));
-	    		}
-	    	}
+//			for (int y = 0; y < map[0].length; y++) {  
+//	    		for (int x = 0; x < map.length; x++) {
+//	    			squares.add(new Vertex(new Point(x, y), map[x][y] != null ? map[x][y].getType() : Type.EMPTY));
+//	    		}
+//	    	}
 			
-//			for (int y = 0; y < height; y++) {
-//				for (int x = 0; x < width; x++) {
-//					squares.add(new Vertex(new Point(x, y), map[y][x] != null ? map[y][x].getType() : Type.EMPTY));
-//				}	
-//			}
+//			for (int y = 0; y < map[0].length; y++) {  
+//	    		for (int x = 0; x < map.length; x++) {
+//	    			if (map[x][y] != null) {
+//	    				sb.append(map[x][y].getLabel());			
+//	    		}
+//	    	}
+			
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					squares.add(new Vertex(new Point(x, y), map[x][y] != null ? map[x][y].getType() : Type.EMPTY));
+				}	
+			}
 			
 			// init neighbor relationships
 			for (Vertex v: squares) {
@@ -202,7 +215,7 @@ public class BrainsForRoads extends Creature {
 			if (loc.x < 0 || loc.y < 0 || loc.x > width || loc.y > height) {
 				return Optional.empty();
 			}
-			return Optional.of(squares.get(loc.x + loc.y * width));
+			return Optional.of(squares.get(loc.y + loc.x * height));
 		}
 		
 		public Optional<Vertex> getVertexAtPoint(Point origin, Direction dir) {
