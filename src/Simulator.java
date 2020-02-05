@@ -218,6 +218,7 @@ public final class Simulator implements javax.swing.Icon {
         garbage collector can run and slow a creature unreasonable on
         one turn, this must be at least 0.1 seconds. */
     final static public long KILL_TIME    = (long)(0.25 * SECONDS);
+//    final static public long KILL_TIME    = Long.MAX_VALUE;
 
     // All costs are in nanoseconds.  It is worth turning around if a
     // creature plans to move backwards more than three consecutive
