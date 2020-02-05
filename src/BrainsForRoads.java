@@ -44,10 +44,10 @@ public class BrainsForRoads extends Creature {
         while (true) {
         	
         	if (battlefield.treasureLoc.isPresent()) {
-        		System.out.println("Move to target: " + battlefield.treasureLoc.get());
+//        		System.out.println("Move to target: " + battlefield.treasureLoc.get());
         		moveToTarget(battlefield.treasureLoc.get());
         	} else {
-        		System.out.println("Exploring...");
+//        		System.out.println("Exploring...");
         		exploreMap();
         	}     	
         }
